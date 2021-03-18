@@ -7,7 +7,7 @@
     
     if(nombre==null){
     response.sendRedirect("error.html");
-}else{
+    }else{
             GestorBD gestor = new GestorBD();
             Articulo c = gestor.getArticulo(nombre);
             String fotografia="img/fotosElectr/"+c.getFoto();
@@ -84,7 +84,7 @@
             
           <h1><%= nombre %></h1>
           <div class="fotoDetalle">
-            <img src=<%=fotografia%> alt="Mie/080FO" longdesc="Frigorífico-Congelador KT 3540 SN ed - Miele">
+              <img src=<%=fotografia%> alt="Mie/080FO" longdesc=<%=c.getDescripcion()%>>
           </div>
           <div class="datosDetalle">
               <h2><%= c.getNombre() %></h2>
@@ -113,5 +113,5 @@
     </div>
   </body>
   
-  <%}%>
+ <%}%>
 </html>
