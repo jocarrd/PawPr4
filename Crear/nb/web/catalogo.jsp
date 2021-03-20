@@ -25,8 +25,6 @@
         }
 
         List<Articulo> arts = sol.GestorBD.getArticulos(pagina, tamanio);
-        
-       
 
 
     %>
@@ -44,42 +42,7 @@
     </head>
 
     <body >
-        <div class="logo"><a href="index.html"><img src="img/LogoElectrosa200.png" border="0"></a></div>
-
-        <div class="sombra">
-            <div class="nucleo">
-                <div id="lang">
-                    <a href="index.html">Español</a> &nbsp; | &nbsp; <a href="index.html">English</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="barra_menus">	
-            <div class="pestanias">
-                <div class="grupoPestanias">
-                    <div class="pestaniaSel">Para usuarios</div>
-                    <div class="pestaniaNoSel"><a href="admin/index.html">Intranet</a></div>
-                </div>
-            </div>
-
-            <div id="menu" >
-                <ul>
-                    <li>
-                        <a href="index.html">Sobre electrosa<br/><img src="img/Home4.png"/></a>
-                    </li>
-                    <li>
-                        <a href="index.html">Dónde estamos<br/><img src="img/map.png"/></a>
-                    </li>
-                    <li>
-                        <a href="catalogo.jsp">Hojear catálogo<br/><img src="img/catalog.png"/></a>
-                    </li>
-                    <li>
-                        <a href="index.html">Usuario registrado<br/><img src="img/registrado.png"/></a>
-                    </li>
-                </ul>
-                <div style="clear: left;"></div>
-            </div>
-        </div> 
+        <%@ include file='cabecera.html'%>
 
         <div class="sombra">
             <div class="nucleo">
@@ -97,24 +60,27 @@
 
                             <label for="tipo">Tipo :</label>
                             <select name="tipo" id="tipo">
+                                <%                                    paw.bd.GestorBD compilado = new paw.bd.GestorBD();
+                                    List<String> tipos = compilado.getTiposArticulos();
+                                %>
                                 <option value="-1">- Cualquiera -</option>
-                                <option value="Aspirador">Aspiradores</option>
-                                <option value="Campana">Campanas</option>
-                                <option value="Cocina">Cocinas</option>
-                                <option value="Frigorifico">Frigoríficos</option>
-                                <option value="Horno">Hornos</option>
-                                <option value="Lavadora">Lavadoras</option>
-                                <option value="Lavavajillas">Lavavajillas</option>
-                                <option value="Microondas">Microondas</option>
-                                <option value="Placa">Placas</option>
+                                <% for (int i = 0; i < tipos.size(); i++) {%>
+                                <option value=<%=tipos.get(i)%>><%=tipos.get(i)%></option>
+                                <%}%>
                             </select>
 
                             <label for="fabricante">Fabricante :</label>
                             <select name="fabricante" id="fabricante">
+                                <%
+
+                                    List<String> fabricantes = compilado.getFabricantes();
+                                %>
+
                                 <option value="-1">- Cualquiera -</option>
-                                <option value="Edesa">Edesa</option>
-                                <option value="Fagor">Fagor</option>
-                                <option value="Miele">Miele</option>
+                                
+                                <% for (int i = 0; i < fabricantes.size(); i++) {%>
+                                <option value=<%=fabricantes.get(i)%>><%=fabricantes.get(i)%></option>
+                                <%}%>
                             </select>
 
                             <label for="precio">Precio :</label>
@@ -142,8 +108,8 @@
                     <div class="resumResul redondeo">
                         Encontrados <%=d.getNumRegistros()%> artículos. Mostrando página <%=pagina%> de 38.
                         <span class="paginador"> 
-                            
-                            <%if(pagina!=1){%>
+
+                            <%if (pagina != 1) {%>
                             <a href="catalogo.jsp?pag=2">Anterior</a>   
                             <%}%>
                             <a href="catalogo.jsp?pag=1">1</a>              
@@ -151,8 +117,8 @@
                             <a href="catalogo.jsp?pag=3">3</a>              
                             <a href="catalogo.jsp?pag=4">4</a>
                             <a href="catalogo.jsp?pag=5">5</a>
-                           <% if(pagina!= d.getNumPaginas()){  %>
-                            <a href="catalogo.jsp?pag=<%=pagina+1%>">Siguiente</a>    
+                            <% if (pagina != d.getNumPaginas()) {%>
+                            <a href="catalogo.jsp?pag=<%=pagina + 1%>">Siguiente</a>    
                             <%}%>
                         </span>
                     </div>
@@ -165,7 +131,7 @@
                             String oferta = " ";
                         %>
                         <% if (i % 3 == 0)
-                      oferta = "oferta";%>
+                                oferta = "oferta";%>
                         <li class="item redondeo">
                             <div class="foto">
                                 <a href="fichaArticulo.jsp?cart=<%=a.getCodigo()%>"><img src=<%= fotografia%> alt="Mie/088FO" longdesc="<%=a.getDescripcion()%>" width="80"></a>
@@ -181,7 +147,8 @@
                             </div>			  
                             <div class="codigo"><a href="catalogo.jsp"><%=a.getCodigo()%></a></div>
                         </li>
-                         <%i++; }%>
+                        <%i++;
+                            }%>
                     </ul>			
                     <div class="clear"></div>
 
@@ -191,11 +158,7 @@
             <div class="separa"></div>
 
             <div class="pie">
-                <span class="pie_izda">
-                    <a href="mailto:francisco.garcia@unirioja.es">Contacto</a> &nbsp; | &nbsp; <a href="mapa.html">Mapa</a> </span>
-                <span class="pie_dcha">
-                    &copy; 2012 Francisco J. García Izquierdo  </span>
-                <div class="clear"></div>  
+                <%@ include file='pie.html'%>
             </div>
 
         </div>
