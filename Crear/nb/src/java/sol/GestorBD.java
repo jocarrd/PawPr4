@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 
 import paw.bd.Paginador;
@@ -22,20 +24,30 @@ import paw.model.ExcepcionDeAplicacion;
  * @author usuariolocal
  */
 public class GestorBD {
-     
-     
-     public static List<Articulo> getArticulos(int pagina, int tamanioPagina)
- throws ExcepcionDeAplicacion{
-         Connection con = null;
-        Statement stmt = null;   
+
+    public static List<Articulo> getArticulos(int pagina, int tamanioPagina)
+            throws ExcepcionDeAplicacion {
+        Connection con = null;
+        Statement stmt = null;
         ResultSet rs = null;
         List<Articulo> nombres = new ArrayList<>();
         
+        int n;
+        if(pagina==1){
+              n=pagina*tamanioPagina - tamanioPagina;
+        }else{
+            n=pagina*tamanioPagina - tamanioPagina-1;
+        }
         
+        
+        
+        int m=tamanioPagina;
+
         try {
             con = paw.bd.ConnectionManager.getConnection();
             stmt = con.createStatement();
-            String consulta = "select * from articulo";
+            String consulta = "select * from articulo LIMIT "+n+","+m;
+            System.out.println(consulta);
 
             rs = stmt.executeQuery(consulta);
             while (rs.next()) {
@@ -49,27 +61,38 @@ public class GestorBD {
             throw new ExcepcionDeAplicacion(e);
         } finally {
             try {
-               if(con!=null) con.close();
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException ex) {
-               
+
             }
         }
 
         return nombres;
-     }
-     
-     public static Paginador getPaginadorArticulos(int tamanioPagina)
- throws ExcepcionDeAplicacion{
-         
-       paw.bd.GestorBD s = new paw.bd.GestorBD ();
-       int registros=s.getArticulos().size();
-         
-         
-         
-         
-         
-         return new Paginador(registros,tamanioPagina);
-         
-     }
+    }
+
+    public static Paginador getPaginadorArticulos(int tamanioPagina)
+            throws ExcepcionDeAplicacion {
+
+        paw.bd.GestorBD s = new paw.bd.GestorBD();
+        int registros = s.getArticulos().size();
+
+        return new Paginador(registros, tamanioPagina);
+
+    }
+    
+    public static void main(String[] args) {
+        try {
+           List<Articulo>  lista = GestorBD.getArticulos(2, 5);
+           
+           for(int i=0;i<lista.size();i++){
+               System.out.println(lista.get(i));
+           }
+
+        } catch (ExcepcionDeAplicacion ex) {
+            Logger.getLogger(GestorBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
