@@ -25,6 +25,8 @@
         }
 
         List<Articulo> arts = sol.GestorBD.getArticulos(pagina, tamanio);
+        
+       
 
 
     %>
@@ -138,15 +140,20 @@
                     </div>
 
                     <div class="resumResul redondeo">
-                        Encontrados <%=arts.size()%> artículos. Mostrando página <%=pagina%> de 38.
-                        <span class="paginador">                
-                            <a href="catalogo.jsp?pag=2">Anterior</a>              
+                        Encontrados <%=d.getNumRegistros()%> artículos. Mostrando página <%=pagina%> de 38.
+                        <span class="paginador"> 
+                            
+                            <%if(pagina!=1){%>
+                            <a href="catalogo.jsp?pag=2">Anterior</a>   
+                            <%}%>
                             <a href="catalogo.jsp?pag=1">1</a>              
-                            <a href="catalogo.jsp?pag=2">2</a>              
-                            <span>3</span>              
-                            <a href="catalogo.jsp?pag=4">4</a>              
+                            <a href="catalogo.jsp?pag=2">2</a>                          
+                            <a href="catalogo.jsp?pag=3">3</a>              
+                            <a href="catalogo.jsp?pag=4">4</a>
                             <a href="catalogo.jsp?pag=5">5</a>
-                            <a href="catalogo.jsp?pag=4">Siguiente</a>                                  
+                           <% if(pagina!= d.getNumPaginas()){  %>
+                            <a href="catalogo.jsp?pag=<%=pagina+1%>">Siguiente</a>    
+                            <%}%>
                         </span>
                     </div>
 
